@@ -12,7 +12,9 @@
           }
     }
 
-    function playRound(playerSelection, computerSelection){
+    function playRound(playerSelection){
+        let computerSelection = getComputerChoice();
+
         if(playerSelection == computerSelection){
             return "It's a tie, you both chose " + playerSelection + "!"
         } else if(playerSelection == "rock" && computerSelection == "paper"){
@@ -28,25 +30,41 @@
         } else if(playerSelection == "scissors" && computerSelection == "paper"){
             return "The computer chose "+ computerSelection +" and you chose "+ playerSelection +", you won!"
         } else return "This is a game of Rock Paper Scissors, you can't use \""+playerSelection+"\" here!"
-0
     }
 
-    function playGame(){
-        let playerScore = 0;
-        let computerScore = 0;
+    const buttons = document.querySelectorAll('button');
+    const mainText = document.querySelector('#main-text');
+    const logsText = document.querySelector('#logs');
+    const roundCountText = document.querySelector('#round-count');
 
-        let result = "A 5-round game of Rock Paper Scissors against the computer is about to begin!"
-        console.log(result)
-        for(let roundNumber = 0; roundNumber < 5; roundNumber++){
-            let playerSelection = prompt(result+" What is your choice for round " + (roundNumber+1) + "?");
-            result = playRound(playerSelection.toLocaleLowerCase(), getComputerChoice())
-            console.log(result)
+    let gameState = true;
+    let roundCount = 0;
 
-            if(result.includes("you won")) playerScore++
-            else if (result.includes("you lost")) computerScore++
-        }
-        console.log("The game is over. The Player's score is "+playerScore+" and the Computer's score is "+computerScore)
-    }
+    let playerScore = 0;
+    let computerScore = 0;
+    
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            if(gameState == true){
+                roundCount++
+                if(roundCount < 5 ){
+                    let finalDisplayMessage = playRound(button.id);
+                    logsText.textContent = logsText.textContent + " Round "+(roundCount) + ": " + finalDisplayMessage;
+                    mainText.textContent = finalDisplayMessage +" What is your choice for round " + (roundCount+1) + "?";
+                } else if(roundCount < 6 ){let finalDisplayMessage = playRound(button.id);
+                    logsText.textContent = logsText.textContent + " Round "+(roundCount) + ": " + finalDisplayMessage;
+                    mainText.textContent = finalDisplayMessage +" The match is over!";
+                    roundCountText.textContent = "The Player's score is "+playerScore+" and the Computer's score is "+computerScore;
+                    logsText.textContent = logsText.textContent + " Final Score: " +roundCountText.textContent + ".";
+                    gameState = false;
+                } else {
+                    console.log("Something went wrong with roundCount: " + roundCount);
+                }
 
-playGame()
+                if((mainText.textContent).includes("you won")) playerScore++
+                else if ((mainText.textContent).includes("you lost")) computerScore++
+
+            } else mainText.textContent = "No game is currently playing right now, do you want a rematch?"
+            });
+        });
 
