@@ -1,1 +1,2 @@
-# rock-paper-scissors
+# Rock Paper Scissors Game
+This project implements a simple Rock Paper Scissors game in JavaScript. It consists of three main functions: `getComputerChoice()` to randomly select the computer's choice, `playRound()` to determine the winner of each round, and `playGame()` to run a 5-round game against the computer. Players are prompted to enter their choice for each round, and the game announces the winner or if it's a tie. At the end of the game, the scores of the player and the computer are displayed.
